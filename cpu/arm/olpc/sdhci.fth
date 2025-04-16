@@ -71,7 +71,7 @@ previous definitions
 device-end
 
 dev /sdhci@d4280000  \ MMC1 - External SD
-   8 encode-int " bus-width" property
+   4 encode-int " bus-width" property
    d# 31 encode-int " clk-delay-cycles" property
    0 0 encode-bytes  " no-1-8-v" property
    d# 40 encode-int  1 encode-int encode+  " power-delay-ms" property
@@ -84,7 +84,7 @@ dev /sdhci@d4280000  \ MMC1 - External SD
 device-end
 
 dev /sdhci@d4280800  \ MMC2 - WLAN
-   8 encode-int " bus-width" property
+   4 encode-int " bus-width" property
    d# 31 encode-int " clk-delay-cycles" property
    0 0  " non-removable" property
 

@@ -10,7 +10,7 @@ dev /sdhci@d4280000  \ MMC1 - External SD
 device-end
 
 dev /sdhci@d4217000  \ MMC5 - internal micro-SD
-   8 encode-int " bus-width" property
+   4 encode-int " bus-width" property
    d# 15 encode-int " clk-delay-cycles" property
 
    \ The media is considered non-removable (at run-time) since the slot is
