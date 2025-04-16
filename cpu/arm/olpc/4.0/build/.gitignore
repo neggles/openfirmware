@@ -4,3 +4,6 @@ cforth
 multicast-nand
 sourceurl
 testicons
+fw-suffix
+*.hex
+*.bin.*
