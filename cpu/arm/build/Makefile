@@ -1,9 +1,9 @@
-BASEDIR= $(shell cd ../../../; pwd)
+BASEDIR := $(shell cd ../../../; pwd)
 
 OS := $(shell uname)
-HOSTCPU= $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
-HOSTDIR= ${BASEDIR}/cpu/${HOSTCPU}/${OS}
-BUILDSH= ${BASEDIR}/forth/lib/build.sh
+HOSTCPU := $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
+HOSTDIR := ${BASEDIR}/cpu/${HOSTCPU}/${OS}
+BUILDSH := ${BASEDIR}/forth/lib/build.sh
 
 all: basefw.dic
 

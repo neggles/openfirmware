@@ -1,15 +1,15 @@
 ROMNAME=olpc
 
-BASEDIR= `(cd ../../../../..; pwd;)`
+BASEDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../../../)
 
 OS := $(shell uname)
-HOSTCPU= $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
-HOSTDIR= ../../../../${HOSTCPU}/${OS}
-BUILDSH= ${BASEDIR}/forth/lib/build.sh
+HOSTCPU := $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
+HOSTDIR := ${BASEDIR}/cpu/${HOSTCPU}/${OS}
+BUILDSH := ${BASEDIR}/forth/lib/build.sh
 
-TAGFILES= ../../../build/*.tag *.tag
-CLIENTDIR=../../../../../clients
-CLIENTPROGS=${CLIENTDIR}/emacs/arm/emacs
+TAGFILES    := ${BASEDIR}/cpu/arm/build/*.tag *.tag
+CLIENTDIR   := ${BASEDIR}/clients
+CLIENTPROGS := ${CLIENTDIR}/emacs/arm/emacs
 
 all: ${ROMNAME}.rom tags
 
