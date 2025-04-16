@@ -1,0 +1,4 @@
+# OpenFirmware uses .bth for some Forth files
+*.fth   linguist-language=Forth
+*.bth   linguist-language=Forth
+
