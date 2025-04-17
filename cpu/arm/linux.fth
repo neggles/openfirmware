@@ -53,7 +53,7 @@ defer ofw-tag, ' noop to ofw-tag,  \ Define externally if appropriate
 : set-parameters  ( cmdline$ adr -- )
    to tag-adr
 
-   5           tag-l,    \ size   
+   5           tag-l,    \ size
    h# 54410001 tag-l,    \ ATAG_CORE
    0           tag-l,    \ Flags (1 for read-only)
    pagesize    tag-l,
@@ -117,7 +117,7 @@ h# 10000 constant /fdt-max
    use-fdt?  if
       make-usable-property
       ramdisk-adr ?dup 0=  if  load-base  then
-      /fdt-max - 4 round-down  to linux-params
+      /fdt-max - 8 round-down  to linux-params
       linux-params /fdt-max flatten-device-tree
    else
       args-buf cscount linux-params set-parameters
@@ -135,7 +135,7 @@ defer place-ramdisk
 : linux-place-ramdisk  ( adr len -- )
    to /ramdisk                                    ( adr )
 
-   load-base  /ramdisk - 4 round-down             ( adr new-ramdisk-adr )
+   load-base  /ramdisk - 8 round-down             ( adr new-ramdisk-adr )
    tuck /ramdisk move                             ( new-ramdisk-adr )
 \  dup to linux-memtop
    to ramdisk-adr
@@ -217,7 +217,7 @@ warning !
 
 \ LICENSE_BEGIN
 \ Copyright (c) 2010 FirmWorks
-\ 
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -225,10 +225,10 @@ warning !
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
