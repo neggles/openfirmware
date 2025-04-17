@@ -312,8 +312,8 @@ end-package
 0 0  " "  " /" begin-package
    " pwrseq0" device-name
    " mmc-pwrseq-sd8787" +compatible
-   " /gpio" encode-phandle wlan-pd-gpio# encode-int encode+ d# 0 encode-int encode+ " powerdown-gpios" property
-   " /gpio" encode-phandle wlan-reset-gpio# encode-int encode+ d# 0 encode-int encode+ " reset-gpios" property
+   " /gpio" encode-phandle wlan-pd-gpio# encode-int encode+ d# 1 encode-int encode+ " powerdown-gpios" property
+   " /gpio" encode-phandle wlan-reset-gpio# encode-int encode+ d# 1 encode-int encode+ " reset-gpios" property
 end-package
 
 [ifdef] en-emmc-pwr-gpio#
