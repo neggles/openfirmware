@@ -24,7 +24,7 @@ headers
 
 \ =======================================================================
 \ Usage:
-\ 
+\
 \ Before probe-pci, reset-wlan.
 \ Before using the driver, set wlan-* environment variables.
 \ =======================================================================
@@ -507,7 +507,7 @@ instance defer unwrap-ethernet
       00cc  of  ." CMD_802_11_SET_MODE"			endof  \ Thin firmware only
       ( default )  ." Unknown command: " dup u.
    endcase
-   cr   
+   cr
 ;
 
 \ Use prepare-cmd when the length is well known in advance
@@ -518,7 +518,7 @@ instance defer unwrap-ethernet
    outbuf /outbuf erase                  ( len cmd )
    outbuf to x  0 to /x                  ( len cmd )
    ( len cmd )      +xw    \ fw-cmd      ( len )
-   /fw-cmd-hdr +    +xw	   \ fw-len 	 ( )  
+   /fw-cmd-hdr +    +xw	   \ fw-len 	 ( )
    fw-seq++         +xw    \ fw-seq      ( )
    0                +xw    \ fw-result   ( )
 ;
@@ -777,7 +777,7 @@ true value got-indicator?
 : marvel-get-mac-address  ( -- error? )
    4 0 do
       (marvel-get-mac-address) 0=  if  false unloop exit  then
-   loop  
+   loop
    ." marvel-get-mac-address failed" cr
    true
 ;
@@ -924,7 +924,7 @@ true value got-indicator?
    8              +xb  \ length
    2     +xb  4     +xb  d# 11 +xb  d# 22 +xb  \ 1 2 5.5 11 Mb/sec
    d# 12 +xb  d# 18 +xb  d# 24 +xb  d# 36 +xb  \ 6 9 12 18 Mb/sec
-   
+
    3              +xb  \ element ID = DS parameter set
    1              +xb  \ length
    channel        +xb  \ Channel number
@@ -953,7 +953,7 @@ true value got-indicator?
    ACTION_SET +xw
    ( arg ) +xw
    outbuf-wait drop
-;   
+;
 
 \ Preamble, RF on
 : set-radio-control ( -- )  preamble 1 or (set-radio-control)  ;
@@ -964,7 +964,7 @@ true value got-indicator?
    ACTION_SET +xw
    0 +xw		\ Object = desiredBSSType
    1 +xw		\ Size of object
-   ( bssType ) +xb	
+   ( bssType ) +xb
    outbuf-wait 0=
 ;
 
@@ -1514,7 +1514,7 @@ headers
    else
       drop false                      ( error? )
    then
-     
+
    dup 0=  if                         ( error? )
       tx-ctrl  TX_WDS or set-tx-ctrl  ( error? )
       ds-associated set-driver-state  ( error? )
@@ -1586,7 +1586,7 @@ instance variable mesh-param
    1      +xb				\ DTIM period
 
    \ SSID
-   0   +xw				\ element ID = SSID 
+   0   +xw				\ element ID = SSID
    dup +xw				\ len
    ( ssid$ ) +x$			\ SSID
 
@@ -1844,7 +1844,7 @@ d# 1600 constant /packet-buf
    set-mac-control
    4 set-preamble  set-radio-control   \ auto preamble
    set-rf-channel
-   set-ap-mode   
+   set-ap-mode
    marvel-set-mac-address
    send-deauth
    make-beacon
@@ -1975,14 +1975,14 @@ d# 1600 constant /packet-buf
    outbuf-wait  drop
 ;
 
-2 constant gpio-pin 
-d# 20 constant wake-gap 
+2 constant gpio-pin
+d# 20 constant wake-gap
 1 constant wake-on-broadcast
 2 constant wake-on-unicast
-4 constant wake-on-mac-event 
--1 constant remove-wakeup 
+4 constant wake-on-mac-event
+-1 constant remove-wakeup
 
-\ LED_GPIO_CTRL 
+\ LED_GPIO_CTRL
 
 : host-sleep-activate  ( -- )
    0 h# 45 ( CMD_802_11_HOST_SLEEP_ACTIVATE ) prepare-cmd
@@ -1993,7 +1993,7 @@ d# 20 constant wake-gap
    >r
    6 h# 43 ( CMD_802_11_HOST_SLEEP_CFG ) prepare-cmd
 \   ACTION_SET +xw
-   
+
    r> +xl
    gpio-pin +xb
    wake-gap +xb
@@ -2126,7 +2126,7 @@ external
 \ Designed for use by application to update the Marvel firmware only.
 \ Normal operation should have force-open? be false.
 false instance value force-open?
-				
+
 false instance value quiet?
 
 : parse-args  ( $ -- )
@@ -2238,14 +2238,14 @@ false instance value quiet?
 : associate-reply  ( -- )
    0 4 find-tag  0=  if  exit  then   ( adr len )  \ Exit if SSID parameter is missing
    ssid$ $=  0=  if  exit  then   ( )  \ Exit if SSID is wrong
-   
+
    mac-adr$ mac-adr$  packet-buf d# 10 + 6  d# 314  h# 10  set-802.11-header
 
    cap        0 +pkt-data  le-w!   \ Capability mask
    0          2 +pkt-data  le-w!   \ Status - okay
-   association-id# h# 3fff and  h# c000 or   4 +pkt-data  le-w!   \ 
+   association-id# h# 3fff and  h# c000 or   4 +pkt-data  le-w!   \
    association-id# 1+ to association-id#
-   
+
    " "(01 08 02 04 0b 16 0c 12 18 24 32 04 30 48 e0 ec)"   ( tags-adr tags-len )
    tuck   6 +pkt-data  swap  move                          ( tags-size )
    packet-buf  swap /802.11-header +  6 +   wrap-802.11    ( adr len )
@@ -2257,7 +2257,7 @@ false instance value quiet?
    0          0 +pkt-data  le-w!   \ Open system auth code
    2 +pkt-data  le-w@   1+  2 +pkt-data  le-w!   \ auth seq#
    0          4 +pkt-data  le-w!   \ Status - okay
-   
+
    packet-buf  /802.11-header 6 +   wrap-802.11    ( adr len )
    data-out
 ;
@@ -2502,7 +2502,7 @@ headers
 
 \ LICENSE_BEGIN
 \ Copyright (c) 2007 FirmWorks
-\ 
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -2510,10 +2510,10 @@ headers
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
