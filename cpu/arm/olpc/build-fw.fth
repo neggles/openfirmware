@@ -103,7 +103,7 @@ fload ${BP}/cpu/x86/pc/cpunode.fth  \ The PC CPU node is actually fairly generic
 : cpu-mhz  ( -- n )
    " /cpu@0" find-package drop	( phandle )
    " clock-frequency" rot get-package-property  if  0 exit  then  ( adr )
-   decode-int nip nip  d# 1000000 /  
+   decode-int nip nip  d# 1000000 /
 ;
 
 fload ${BP}/cpu/arm/mmp2/watchdog.fth	\ reset-all using watchdog timer
@@ -155,7 +155,7 @@ fload ${BP}/cpu/arm/mmp2/uart.fth
 
 devalias com1 /uart@d4017000
 : com1  " com1"  ;
-' com1 is fallback-device   
+' com1 is fallback-device
 
 \needs md5init  fload ${BP}/ofw/ppp/md5.fth                \ MD5 hash
 
@@ -568,7 +568,7 @@ hex
 
 defer rotate-button?  ' false to rotate-button?
 
-warning @  warning off 
+warning @  warning off
 : init
 \ initial-heap add-memory
    init
@@ -726,7 +726,7 @@ fload ${BP}/cpu/x86/pc/olpc/via/factory.fth  \ Manufacturing tools
 
 fload ${BP}/cpu/arm/olpc/accelerometer.fth
 
-\ When reprogramming this machine's SPI FLASH, rebooting the EC is unnecessary 
+\ When reprogramming this machine's SPI FLASH, rebooting the EC is unnecessary
 : no-kbc-reboot  ['] noop to spi-reprogrammed  ;
 : kbc-on ;
 
@@ -1063,7 +1063,7 @@ dev /client-services  patch noop visible enter  dend
    cr cr
 
    enable-user-aborts
-   stop-sound   
+   stop-sound
    quit
 ;
 
@@ -1091,7 +1091,7 @@ fload ${BP}/cpu/x86/pc/olpc/apt.fth        \ Common developer utilities
 
 \ LICENSE_BEGIN
 \ Copyright (c) 2010 FirmWorks
-\ 
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -1099,10 +1099,10 @@ fload ${BP}/cpu/x86/pc/olpc/apt.fth        \ Common developer utilities
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
