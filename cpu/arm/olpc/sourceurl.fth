@@ -2,6 +2,6 @@
 
 show-rebuilds?  false to show-rebuilds?   \ We don't need to see these commands
 
-" git remote --verbose show | head -1 | cut -f2 | cut -f1 -d' ' | tr  \\n ' ' > sourceurl ; git branch -v | cut -f2,3 -d' ' | tr  \\n ' ' >>sourceurl ; git status --porcelain | wc --lines >>sourceurl" $sh
+" git remote -v | grep origin | cut -f2 | cut -f1 -d' ' | tr \\n ' ' > sourceurl ; git rev-parse --abbrev-ref HEAD >>sourceurl ; git status --porcelain | wc -l >>sourceurl" $sh
 
 to show-rebuilds?
