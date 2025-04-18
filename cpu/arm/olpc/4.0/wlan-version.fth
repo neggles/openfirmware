@@ -20,6 +20,7 @@ macro: WLAN_VERSION 9.0.7.p2
 \     has a different md5sum to what we were using
 \ use what we were using
 macro: WLAN_8787_VERSION 14.66.09.p80
+macro: GET_WLAN_8787 cp "../../../../../assets/libertas/mv8787-14.66.09.p80.bin" mv8787.bin
 
 \ Non-thin version
 \ macro: WLAN_SUBDIR
