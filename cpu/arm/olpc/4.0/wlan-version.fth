@@ -5,6 +5,8 @@ macro: WLAN_SUBDIR thinfirm/
 macro: WLAN_PREFIX lbtf_sdio-
 macro: WLAN_VERSION 9.0.7.p2
 
+macro: GET_WLAN cp "../../../../../assets/libertas/lbtf_sdio-9.0.7.p2.bin" sd8686.bin; cp "../../../../../assets/libertas/sd8686_v9_helper.bin" sd8686_helper.bin
+
 \ dd7193bc is 14.66.09.p96 .  The OFW driver doesn't work with it yet
 \ macro: WLAN_8787_VERSION dd7193bc187a5182a6236cb6337699d2229c54b0
 
