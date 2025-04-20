@@ -6,11 +6,11 @@ new-device
 
 h# 50 1 reg
 
-" zforce" +compatible
+" neonode,zforce" +compatible
 touch-rst-gpio# 1  " reset-gpios" gpio-property
 touch-tck-gpio# 1  " test-gpios"  gpio-property
 touch-hd-gpio#  1  " hd-gpios"    gpio-property
-touch-int-gpio# 1  " dr-gpios"    gpio-property
+touch-int-gpio# 1  " irq-gpios"   gpio-property
 
 : read-bytes  ( adr len -- )  " read-bytes"  $call-parent  ;
 : bytes-out  ( byte .. #bytes -- )  " bytes-out"  $call-parent  ;
@@ -981,8 +981,8 @@ h# 80 value target-size
 
 : add-pt  ( w.x w.y -- )
    #pts #pts-max u<  if
-      ybuf #pts +w! 
-      xbuf #pts +w! 
+      ybuf #pts +w!
+      xbuf #pts +w!
       #pts 1+ to #pts
    else
       2drop
@@ -999,7 +999,7 @@ h# 80 value target-size
    0 -rot  /w* bounds  ?do   ( sum )
       i w@ +                 ( sum' )
    /w +loop                  ( sum )
-; 
+;
 
 \ Maximum values, assuming max-x = 1200, max-y = 900, #pts = 2000
 \ max-x2  = 1200   * 1200 =     1,440,000
