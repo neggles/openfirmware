@@ -1,41 +1,41 @@
 \ ========== Copyright Header Begin ==========================================
-\ 
+\
 \ Copyright (c) 2006 Sun Microsystems, Inc. All Rights Reserved.
-\ 
+\
 \  - Do no alter or remove copyright notices
-\ 
-\  - Redistribution and use of this software in source and binary forms, with 
-\    or without modification, are permitted provided that the following 
-\    conditions are met: 
-\ 
-\  - Redistribution of source code must retain the above copyright notice, 
+\
+\  - Redistribution and use of this software in source and binary forms, with
+\    or without modification, are permitted provided that the following
+\    conditions are met:
+\
+\  - Redistribution of source code must retain the above copyright notice,
 \    this list of conditions and the following disclaimer.
-\ 
+\
 \  - Redistribution in binary form must reproduce the above copyright notice,
 \    this list of conditions and the following disclaimer in the
-\    documentation and/or other materials provided with the distribution. 
-\ 
-\    Neither the name of Sun Microsystems, Inc. or the names of contributors 
-\ may be used to endorse or promote products derived from this software 
-\ without specific prior written permission. 
-\ 
-\     This software is provided "AS IS," without a warranty of any kind. 
-\ ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, 
-\ INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A 
-\ PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN 
-\ MICROSYSTEMS, INC. ("SUN") AND ITS LICENSORS SHALL NOT BE LIABLE FOR 
-\ ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR 
-\ DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES. IN NO EVENT WILL SUN 
-\ OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, PROFIT OR DATA, OR 
-\ FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE 
-\ DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, 
-\ ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, EVEN IF 
+\    documentation and/or other materials provided with the distribution.
+\
+\    Neither the name of Sun Microsystems, Inc. or the names of contributors
+\ may be used to endorse or promote products derived from this software
+\ without specific prior written permission.
+\
+\     This software is provided "AS IS," without a warranty of any kind.
+\ ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES,
+\ INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A
+\ PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN
+\ MICROSYSTEMS, INC. ("SUN") AND ITS LICENSORS SHALL NOT BE LIABLE FOR
+\ ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+\ DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES. IN NO EVENT WILL SUN
+\ OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, PROFIT OR DATA, OR
+\ FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+\ DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY,
+\ ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, EVEN IF
 \ SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-\ 
+\
 \ You acknowledge that this software is not designed, licensed or
 \ intended for use in the design, construction, operation or maintenance of
-\ any nuclear facility. 
-\ 
+\ any nuclear facility.
+\
 \ ========== Copyright Header End ============================================
 
 \ From standini.fth
@@ -278,12 +278,12 @@ copyright: Use is subject to license terms.
 headers
 defer (diagnostic-mode?)  ' false is (diagnostic-mode?)
 : diagnostic-mode?  ( -- flag )
-   standalone?  if  (diagnostic-mode?)  else  false  then  
+   standalone?  if  (diagnostic-mode?)  else  false  then
 ;
 
 : diag-type ( adr,len -- )  diagnostic-mode?  if  type  else  2drop  then  ;
 : diag-cr   ( -- )  diagnostic-mode?  if  cr  then  ;
-: diag-.d   ( n -- ) diagnostic-mode?  if  .d  else  drop  then  ;   
+: diag-.d   ( n -- ) diagnostic-mode?  if  .d  else  drop  then  ;
 : diag-type-cr ( adr,len -- )  diag-type diag-cr  ;
 
 headers
@@ -419,7 +419,7 @@ defer nodefault?  ' false is nodefault?
       false                          ( false )
    then
 ;
-   
+
 : show-config-entry  ( acf -- )
    >r
    r@ .name
@@ -579,10 +579,10 @@ h# 2000 constant /$edit-max
    $edit-buf /$edit-max erase           ( default$ )
    tuck  $edit-buf swap  move           ( len )
    $edit-buf swap /$edit-max edit-line  ( len' )
-   $edit-buf swap   
+   $edit-buf swap
 ;
 : free-edit-buf  ( -- )
-   $edit-buf  if  $edit-buf /$edit-max free-mem  0 to $edit-buf  then 
+   $edit-buf  if  $edit-buf /$edit-max free-mem  0 to $edit-buf  then
 ;
 headers
 : $editenv  ( name$ -- )
@@ -674,7 +674,7 @@ headers
 headers
 
 \ From devtree.fth
-purpose: 
+purpose:
 copyright: Copyright 2006 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -1361,7 +1361,7 @@ also magic-properties definitions
    2over get-encoded-string  ['] magic-device-types  $vexecute
 ;
 : name ( value-str name-str  -- value-str name-str )
-   diagnostic-mode?  autoloading? 0=  and  if 
+   diagnostic-mode?  autoloading? 0=  and  if
       2over decode-string type space 2drop
    then
 ;
@@ -1449,7 +1449,7 @@ headerless
 headers
 
 \ From breadth.fth
-purpose: 
+purpose:
 copyright: Copyright 1990-2002 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -1519,7 +1519,7 @@ partial-headers
 headers
 
 \ From finddev.fth
-purpose: 
+purpose:
 copyright: Copyright 2006 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -1614,7 +1614,7 @@ headerless
       2over " decode-unit"           ( unit$ name$  unit$ method$ )
 
       ['] package-execute catch  if  ( unit$ name$  x x x x )
-         \ If decode-unit aborted, a match at this level is impossible 
+         \ If decode-unit aborted, a match at this level is impossible
          2drop 2drop exit
       then                           ( unit$ name$ phys.lo .. phys.hi )
 
@@ -1825,7 +1825,7 @@ headerless
 headers
 
 \ From testdevt.fth
-purpose: 
+purpose:
 copyright: Copyright 2005 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -1926,8 +1926,8 @@ headerless
    then  ( adr,len )
 
    \ Test for unprintable characters
-   2dup -null text?  if   
-      to-display-column  -null  type  exit  
+   2dup -null text?  if
+      to-display-column  -null  type  exit
    then   ( adr,len )
 
    dup /n =  if  1 .ints   exit  then                              ( adr,len )
@@ -2005,11 +2005,11 @@ headers
    root-device?  if  ." /"  else  (.parents)  then
 ;
 : pwd  ( -- )
-   device-context?  if  (pwd)  else  .not-devtree  then   cr  
+   device-context?  if  (pwd)  else  .not-devtree  then   cr
 ;
 : .voc-name   ( a -- )
    dup device-node? if
-      current-device phandle>voc  swap context token! (pwd) space  
+      current-device phandle>voc  swap context token! (pwd) space
       context token!
    else
       .name
@@ -2478,7 +2478,7 @@ headerless
 : open-path  ( path$ -- )
    ?dup  if                                              ( path$ )
       \ Establish the initial parent
-      also						 ( path$ )	
+      also						 ( path$ )
       dt-null to current-device                          ( path$ )
       ['] (open-path) catch  dup  if  nip nip  then      ( error? )
       previous definitions                               ( error? )
@@ -2806,8 +2806,12 @@ headers
    locate-device abort" encode-phandle - Can't find package"  encode-int
 ;
 
+: encode-null  ( -- adr len )
+   0 0 encode-bytes
+;
+
 \ From finddisp.fth
-purpose: 
+purpose:
 copyright: Copyright 1990-2002 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -2949,7 +2953,7 @@ also magic-device-types definitions
 previous definitions
 
 \ From sysnodes.fth
-purpose: 
+purpose:
 copyright: Copyright 1990-1994,2002 Sun Microsystems, Inc.  All Rights Reserved
 copyright: Use is subject to license terms.
 
@@ -3194,7 +3198,7 @@ variable termemu-#lines		\ For communication with terminal emulator
 : io  ( pathname-adr,len -- )
    2dup input
    output
-; 
+;
 
 \ For compatibility with Campus PROMs; allows you to type, for instance,
 \ "keyboard input"
@@ -3252,7 +3256,7 @@ headers
 : trace-off ( -- )  ['] noop is fm-hook  ;
 
 \ From execall.fth
-purpose: 
+purpose:
 copyright: Copyright 1990 Sun Microsystems, Inc.  All Rights Reserved
 
 headerless
@@ -3269,7 +3273,7 @@ defer the-action    ( phandle -- )
 ;
 
 : scan-level  ( action-xt -- )
-   ['] the-action behavior >r       ( action-xt r: old-xt )   
+   ['] the-action behavior >r       ( action-xt r: old-xt )
    is the-action (scan-level)       ( r: old-xt )
    r> is the-action                 ( )
 ;
@@ -3308,7 +3312,7 @@ false value verbose-do-method?
       verbose-do-method?  if  2dup type cr  then
       method-name 2@  execute-device-method drop cr  (  )
    then                                              (  )
-;   
+;
 
 headers
 
@@ -3433,7 +3437,7 @@ forth definitions
 only forth also definitions
 
 \ From eject.fth
-purpose: 
+purpose:
 copyright: Copyright 1993 Sun Microsystems, Inc.  All Rights Reserved
 
 headers
@@ -3869,7 +3873,7 @@ headers
 h# 10.0000 constant 1meg
 
 \ From instmall.fth
-purpose: 
+purpose:
 copyright: Copyright 1990-2001 Sun Microsystems, Inc.  All Rights Reserved
 
 \ Install heap memory allocator.
@@ -3896,7 +3900,7 @@ partial-headers
 headers
 
 \ From msgbuf.fth
-purpose: 
+purpose:
 copyright: Copyright 1990-2001 Sun Microsystems, Inc.  All Rights Reserved
 
 headerless
@@ -4874,7 +4878,7 @@ also hidden
 ' method-call? to indirect-call?
 
 create not-colon
-: ?not-colon  ( false | xt true -- xt ) 
+: ?not-colon  ( false | xt true -- xt )
    0=  if  ['] not-colon  then
 ;
 : resolve-ih-method  ( adr len ihandle -- xt )
@@ -4887,7 +4891,7 @@ create not-colon
 : resolve-ph-method  ( adr len ph -- xt )
    phandle>voc resolve-voc-method
 ;
-   
+
 : (resolve-method) ( xt -- xt' )
    dup ['] $call-self =  if     ( [ adr len ] xt )
       drop  2dup my-self        ( adr len ih )
