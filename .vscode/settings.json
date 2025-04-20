@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.bth": "forth",
+        "*.fth": "forth"
+    }
+}
