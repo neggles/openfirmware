@@ -12,6 +12,11 @@ touch-tck-gpio# 1  " test-gpios"  gpio-property
 touch-hd-gpio#  1  " hd-gpios"    gpio-property
 touch-int-gpio# 1  " irq-gpios"   gpio-property
 
+d#    0 " touchscreen-min-x"  integer-property
+d# 1200 " touchscreen-size-x" integer-property
+d#    0 " touchscreen-min-y"  integer-property
+d#  900 " touchscreen-size-y" integer-property
+
 : read-bytes  ( adr len -- )  " read-bytes"  $call-parent  ;
 : bytes-out  ( byte .. #bytes -- )  " bytes-out"  $call-parent  ;
 
