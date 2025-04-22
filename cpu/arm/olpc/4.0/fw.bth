@@ -15,7 +15,7 @@ fload ${BP}/cpu/arm/olpc/build-fw.fth
 \ true to stand-init-debug?
 
 fload ${BP}/cpu/arm/olpc/cl4/uart.fth
-fload ${BP}/cpu/arm/olpc/cl4/sdhci.fth
+fload ${BP}/cpu/arm/olpc/4.0/sdhci.fth
 fload ${BP}/cpu/arm/olpc/1.75/lcdcfg.fth
 fload ${BP}/cpu/arm/olpc/cl4/usb.fth
 fload ${BP}/cpu/arm/olpc/nn-touchscreen.fth

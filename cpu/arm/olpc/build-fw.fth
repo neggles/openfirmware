@@ -222,7 +222,7 @@ fload ${BP}/cpu/arm/olpc/ecflash.fth
    " reserved-memory" name
    1 " #address-cells" integer-property
    1 " #size-cells" integer-property
-   0 0 encode-bytes " ranges" property
+   encode-null " ranges" property
 
    new-device
        " framebuffer" device-name
@@ -230,7 +230,7 @@ fload ${BP}/cpu/arm/olpc/ecflash.fth
        " marvell,mmp2-framebuffer" +compatible
        h# 02000000 " size" integer-property
        h# 02000000 " alignment" integer-property
-       0 0 encode-bytes " no-map" property
+       encode-null " no-map" property
    finish-device
 end-package
 
@@ -297,34 +297,6 @@ fload ${BP}/cpu/arm/mmp2/galcore.fth
 [then]
 [ifdef] mmp3
 fload ${BP}/cpu/arm/mmp3/galcore.fth
-[then]
-
-0 0  " "  " /" begin-package
-   " fixedregulator0" device-name
-   " regulator-fixed" +compatible
-   " wlan" " regulator-name" string-property
-   d# 3300000 " regulator-min-microvolt" integer-property
-   d# 3300000 " regulator-max-microvolt" integer-property
-   0 0 encode-bytes " enable-active-high" property
-   " /gpio" encode-phandle en-wlan-pwr-gpio# encode-int encode+ d# 0 encode-int encode+ " gpio" property
-end-package
-
-0 0  " "  " /" begin-package
-   " pwrseq0" device-name
-   " mmc-pwrseq-sd8787" +compatible
-   " /gpio" encode-phandle wlan-pd-gpio# encode-int encode+ d# 1 encode-int encode+ " powerdown-gpios" property
-   " /gpio" encode-phandle wlan-reset-gpio# encode-int encode+ d# 1 encode-int encode+ " reset-gpios" property
-end-package
-
-[ifdef] en-emmc-pwr-gpio#
-0 0  " "  " /" begin-package
-   " fixedregulator1" device-name
-   " regulator-fixed" +compatible
-   " emmc" " regulator-name" string-property
-   d# 3300000 " regulator-min-microvolt" integer-property
-   d# 3300000 " regulator-max-microvolt" integer-property
-   " /gpio" encode-phandle en-emmc-pwr-gpio# encode-int encode+ d# 1 encode-int encode+ " gpio" property
-end-package
 [then]
 
 fload ${BP}/cpu/arm/olpc/sdhci.fth

@@ -48,7 +48,11 @@ ec-spi-ack-gpio# 0  " ready-gpios"  gpio-property
 
 new-device
    " slave" device-name
+[ifdef] mmp3
+   " olpc,xo4.0-ec" +compatible
+[else]
    " olpc,xo1.75-ec" +compatible
+[then]
    0 0 encode-bytes " spi-cpha" property
    ec-spi-cmd-gpio# 0  " cmd-gpios"  gpio-property
 finish-device
@@ -314,7 +318,7 @@ defer upstream
 ;
 : cancel-command  ( -- )  \ Called when the command child times out
    clr-cmd
-   ['] upstream to do-state      
+   ['] upstream to do-state
    prime-fifo
    pulse-ack
 ;
@@ -330,7 +334,7 @@ defer upstream
       get-data?  if  unloop exit  then		( data )
       1 ms
    loop
-   true \ abort" Timeout waiting for data from device" 
+   true \ abort" Timeout waiting for data from device"
 ;
 \ Wait until the device stops sending data
 : clear-out-buf  ( -- )  begin  d# 120 ms  get-data?  while  drop  repeat  ;
@@ -409,7 +413,7 @@ d# 16 buffer: ec-respbuf
       dup get-msecs - 0<              ( limit )
    until                              ( limit )
    drop
-   clr-cmd   
+   clr-cmd
    true abort" EC command result timeout"
 ;
 
@@ -442,7 +446,7 @@ d# 16 buffer: ec-respbuf
 
 : enter-updater  ( -- )
    0 0 h# 50 1 set-cmdbuf
-   
+
    ec-respbuf 1 true  ec-cmdbuf 8 true data-command
 ;
 
@@ -515,7 +519,7 @@ end-package
 
 \ LICENSE_BEGIN
 \ Copyright (c) 2010 FirmWorks
-\ 
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -523,10 +527,10 @@ end-package
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND

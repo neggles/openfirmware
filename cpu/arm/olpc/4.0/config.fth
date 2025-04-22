@@ -32,4 +32,4 @@ char 7 constant expected-ec-version
 h# ec00 constant /ec-flash
 h# eb80 constant ec-flags-offset   \ don't program or verify this page
 
-fload ${BP}/cpu/arm/olpc/cl4/gpiopins.fth
+fload ${BP}/cpu/arm/olpc/4.0/gpiopins.fth

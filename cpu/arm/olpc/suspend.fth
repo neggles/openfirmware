@@ -126,8 +126,13 @@ purpose: Common uspend/resume code for OLPC XO ARM plaforms
 : keyboard-power-off  ( -- )  ;
 [then]
 : wlan-power-on   ( -- )  en-wlan-pwr-gpio# gpio-set  ;
+[ifdef] wlan-pd-gpio#
 : wlan-power-off  ( -- )  en-wlan-pwr-gpio# gpio-clr  h# 040 en-wlan-pwr-gpio# af!  h# 040 wlan-pd-gpio# af!  h# 040 wlan-reset-gpio# af!  ;
 : wlan-stay-on  ( -- )  h# 140 en-wlan-pwr-gpio# af!  h# 140 wlan-pd-gpio# af!  h# 140 wlan-reset-gpio# af!  ;
+[else]
+: wlan-power-off  ( -- )  en-wlan-pwr-gpio# gpio-clr  h# 040 en-wlan-pwr-gpio# af!  h# 040 wlan-reset-gpio# af!  ;
+: wlan-stay-on  ( -- )  h# 140 en-wlan-pwr-gpio# af!  h# 140 wlan-reset-gpio# af!  ;
+[then]
 
 0 value sleep-mask
 : screen-sleep
@@ -154,7 +159,7 @@ purpose: Common uspend/resume code for OLPC XO ARM plaforms
       wlan-power-on
       " /wlan" " wake" execute-device-method drop
    then
-   sleep-mask 2 and  0=  if  keyboard-power-on   then 
+   sleep-mask 2 and  0=  if  keyboard-power-on   then
    " clr-ack" $call-ec
    sleep-mask 1 and  if            \ DCON power up
       dcon-video-restore

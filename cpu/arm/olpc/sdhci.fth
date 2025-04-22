@@ -71,10 +71,12 @@ previous definitions
 device-end
 
 dev /sdhci@d4280000  \ MMC1 - External SD
-   4 encode-int " bus-width" property
-   d# 31 encode-int " clk-delay-cycles" property
-   0 0 encode-bytes  " no-1-8-v" property
-   d# 40 encode-int  1 encode-int encode+  " power-delay-ms" property
+   d# 50000000 " max-frequency" integer-property
+   d#  4 " bus-width" integer-property
+   d# 31 " mrvl,clk-delay-cycles" integer-property
+   d# 40 " post-power-on-delay-ms" integer-property
+
+   encode-null " no-1-8-v" property
 
    new-device
       fload ${BP}/dev/mmc/sdhci/sdmmc.fth
@@ -84,28 +86,15 @@ dev /sdhci@d4280000  \ MMC1 - External SD
 device-end
 
 dev /sdhci@d4280800  \ MMC2 - WLAN
-   4 encode-int " bus-width" property
-   d# 31 encode-int " clk-delay-cycles" property
-   0 0  " non-removable" property
+   d# 50000000 " max-frequency" integer-property
+   d#  4 " bus-width" integer-property
+   d# 31 " mrvl,clk-delay-cycles" integer-property
+   d# 40 " post-power-on-delay-ms" integer-property
 
-   d# 50 encode-int  d# 500 encode-int encode+  " power-delay-ms" property
-   0 0 " broken-cd" property
-   d# 50000000 " clock-frequency" integer-property
-   0 0 encode-bytes " no-1-8-v" property
-   0 0 encode-bytes " wakeup-source" property
-   0 0 encode-bytes " keep-power-in-suspend" property
-
-[ifdef] en-wlan-pwr-gpio#
-   0 0 encode-bytes " cap-power-off-card" property
-   " /fixedregulator0" encode-phandle " vmmc-supply" property
-   \ Active high
-   " /gpio" encode-phandle  en-wlan-pwr-gpio# encode-int encode+  0 encode-int encode+  " power-gpios" property
-[then]
-[ifdef] wlan-reset-gpio#
-   " /pwrseq0" encode-phandle " mmc-pwrseq" property
-   \ Active low
-   " /gpio" encode-phandle  wlan-reset-gpio# encode-int encode+  1 encode-int encode+  " reset-gpios" property
-[then]
+   encode-null " keep-power-in-suspend" property
+   encode-null " wakeup-source" property
+   encode-null " no-1-8-v" property
+   encode-null " non-removable" property
 
    new-device
       fload ${BP}/dev/mmc/sdhci/mv8686/loadpkg.fth
@@ -114,20 +103,39 @@ dev /sdhci@d4280800  \ MMC2 - WLAN
 device-end
 
 dev /sdhci@d4281000  \ MMC3 - Internal eMMC
-   0 0  " non-removable" property
-   8 encode-int " bus-width" property
-   d# 15 encode-int " clk-delay-cycles" property
+   d# 50000000 " max-frequency" integer-property
+   d# 8 " bus-width" integer-property
+   d# 15 " mrvl,clk-delay-cycles" integer-property
+   d# 40 " post-power-on-delay-ms" integer-property
 
-   d# 40 encode-int  1 encode-int encode+  " power-delay-ms" property
-   0 0 " broken-cd" property
-   d# 50000000 " clock-frequency" integer-property
-   d# 31 " mrvl,clk-delay-cycles" integer-property
-   0 0 encode-bytes " no-1-8-v" property
-[ifdef] en-emmc-pwr-gpio#
-   " /fixedregulator1" encode-phandle " vmmc-supply" property
-   \ Active low
-   " /gpio" encode-phandle  en-emmc-pwr-gpio# encode-int encode+  1 encode-int encode+  " power-gpios"  property
-[then]
+   encode-null " no-1-8-v" property
+   encode-null " non-removable" property
+
+   : write-protected?  false  ;
+   new-device
+      fload ${BP}/dev/mmc/sdhci/sdmmc.fth
+      fload ${BP}/dev/mmc/sdhci/selftest.fth
+      " emmc" " slot-name" string-property
+   finish-device
+device-end
+
+dev /sdhci@d4281800 \ MMC4 (not used)
+   " disabled" " status" string-property
+device-end
+
+[ifdef] mmp3
+dev /sdhci@d4217000 \ MMC5 - internal micro-SD
+   d# 50000000 " max-frequency" integer-property
+   d# 4 " bus-width" integer-property
+   d# 15 " mrvl,clk-delay-cycles" integer-property
+   d# 40 " post-power-on-delay-ms" integer-property
+
+   \ The media is considered non-removable (at run-time) since the slot is
+   \ only accessible on the motherboard, the heatspreader must be removed to
+   \ access it, and it's unpopulated on production boards. `broken-cd` would be
+   \ more accurate, but would waste power.
+   encode-null " no-1-8-v" property
+   encode-null " non-removable" property
 
    : write-protected?  false  ;
    new-device
@@ -136,10 +144,7 @@ dev /sdhci@d4281000  \ MMC3 - Internal eMMC
       " internal" " slot-name" string-property
    finish-device
 device-end
-
-dev /sdhci@d4281800
-   " disabled" " status" string-property
-device-end
+[then]
 
 \ mmc0 is the internal storage device, which may depend on BOOT_DEV_SEL, so its
 \ devalias is set in platform-dependent code
