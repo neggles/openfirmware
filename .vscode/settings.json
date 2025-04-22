@@ -1,6 +1,25 @@
 {
     "files.associations": {
         "*.bth": "forth",
-        "*.fth": "forth"
+        "*.fth": "forth",
+        "*.h": "c",
+        "*.hpp": "cpp"
+    },
+
+    "[c]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 8,
+        "editor.insertSpaces": false,
+        "editor.formatOnPaste": false,
+        "editor.formatOnType": false,
+        "editor.formatOnSave": false
+    },
+    "[cpp]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 8,
+        "editor.insertSpaces": false,
+        "editor.formatOnPaste": false,
+        "editor.formatOnType": false,
+        "editor.formatOnSave": false
     }
 }
