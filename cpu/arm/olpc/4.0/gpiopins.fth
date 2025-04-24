@@ -1,4 +1,4 @@
-\ GPIO pin assignments - XO-CL4
+\ GPIO pin assignments - XO-4.0
 
 d# 165 constant cam-scl-gpio#
 d# 166 constant cam-sda-gpio#
@@ -76,5 +76,5 @@ d#  17 constant check-gpio#
 d#  31 constant sd-cd-gpio#
 d# 141 constant sd-wp-gpio#         \ handled by controller
 
-\ d# 115 constant sd-pwroff-gpio#     \ NC on XO-4 C1
-\ d# 116 constant sd-1.8vsel-gpio#    \ NC on XO-4 C1
+d# 115 constant sd-pwroff-gpio#
+d# 116 constant sd-1.8vsel-gpio#

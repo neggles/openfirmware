@@ -50,9 +50,8 @@ new-device
    " slave" device-name
 [ifdef] mmp3
    " olpc,xo4.0-ec" +compatible
-[else]
-   " olpc,xo1.75-ec" +compatible
 [then]
+   " olpc,xo1.75-ec" +compatible
    0 0 encode-bytes " spi-cpha" property
    ec-spi-cmd-gpio# 0  " cmd-gpios"  gpio-property
 finish-device

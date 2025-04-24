@@ -126,7 +126,7 @@ device-end
 [ifdef] mmp3
 dev /sdhci@d4217000 \ MMC5 - internal micro-SD
    d# 50000000 " max-frequency" integer-property
-   d# 4 " bus-width" integer-property
+   d#  4 " bus-width" integer-property
    d# 15 " mrvl,clk-delay-cycles" integer-property
    d# 40 " post-power-on-delay-ms" integer-property
 

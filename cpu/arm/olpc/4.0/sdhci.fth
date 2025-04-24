@@ -28,14 +28,14 @@ dev /
       d# 3300000 " regulator-max-microvolt" integer-property
       encode-null " enable-active-high" property
       en-wlan-pwr-gpio# 0 " gpio" gpio-property
+      d# 10000 " startup-delay-us" integer-property
    finish-device
 
    new-device   \ SDIO WiFi power sequencer
       " pwrseq-wlan" device-name
       " mmc-pwrseq-simple" +compatible
-      wlan-reset-gpio# 0 " reset-gpios" gpio-property
+      wlan-reset-gpio# 1 " reset-gpios" gpio-property
       d# 300 " post-power-on-delay-ms" integer-property
-      d#  50 " power-off-delay-us" integer-property
    finish-device
 device-end
 
@@ -43,24 +43,28 @@ device-end
 dev /sdhci@d4280800  \ MMC2 - WLAN
    \ encode-null " cap-power-off-card" property
    " /regulator-3v3-wlan" encode-phandle " vmmc-supply" property
+   " /regulator-3v3-wlan" encode-phandle " vqmmc-supply" property
    " /pwrseq-wlan" encode-phandle " mmc-pwrseq" property
-   \ Active low
-   wlan-reset-gpio# 1 " reset-gpios" gpio-property
 device-end
 
 \ 88W8787 WLAN+BG reg property fixes
+dev /sdhci@d4280800/sdio
+   d# 0 " #size-cells" integer-property
+device-end
+
 dev /sdhci@d4280800/sdio/wlan@1
    " marvell,sd8787" +compatible
-   1 " reg" integer-property
+   d# 1 " reg" integer-property
 device-end
 dev /sdhci@d4280800/sdio/bluetooth@2
    " marvell,sd8787-bt" +compatible
-   2 " reg" integer-property
+   d# 2 " reg" integer-property
 device-end
 
 
 dev /sdhci@d4281000  \ MMC3 - Internal eMMC
    " /regulator-3v3-emmc" encode-phandle " vmmc-supply" property
+   encode-null " cap-mmc-highspeed" property
 device-end
 
 
