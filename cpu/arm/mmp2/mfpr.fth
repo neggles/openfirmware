@@ -1,6 +1,6 @@
 purpose: Pin multiplexing for ARMADA 610 chip (no board details)
 
-: aib-unlock  
+: aib-unlock
    h# baba h# 68 apbc!  \ Unlock sequence
    h# eb10 h# 6c apbc!
 ;
@@ -52,24 +52,26 @@ here mfpr-offsets - /w /  constant #mfprs
 : af@  ( gpio# -- function# )  gpio>mfpr io@  ;
 : af!  ( function# gpio# -- )  gpio>mfpr io!@  ;
 
-: +edge-clr     ( n -- n' )  h#   40 or  ;
-: +very-slow    ( n -- n' )  h# 0000 or  ;
-: +slow         ( n -- n' )  h# 0800 or  ;
-: +medium       ( n -- n' )  h# 1000 or  ;
-: +fast         ( n -- n' )  h# 1800 or  ;
-: +twsi         ( n -- n' )  h#  400 or  ;
-: +pull-up      ( n -- n' )  h# c000 or  ;
-: +pull-dn      ( n -- n' )  h# a000 or  ;
-: +pull-up-alt  ( n -- n' )  h# 4000 or  ;
-: +pull-dn-alt  ( n -- n' )  h# 2000 or  ;
+: +edge-clr     ( n -- n' )  h#   40 or  ;  \ 0b 0000 0000 0100 0000
+: +edge-set     ( n -- n' )  h#   80 or  ;  \ 0b 0000 0000 1000 0000
+: +very-slow    ( n -- n' )  h# 0000 or  ;  \ 0b 0000 0000 0000 0000
+: +slow         ( n -- n' )  h# 0800 or  ;  \ 0b 0000 1000 0000 0000
+: +medium       ( n -- n' )  h# 1000 or  ;  \ 0b 0001 0000 0000 0000
+: +fast         ( n -- n' )  h# 1800 or  ;  \ 0b 0001 1000 0000 0000
+: +pull-dn      ( n -- n' )  h# a000 or  ;  \ 0b 0101 0000 0000 0000
+: +pull-dn-alt  ( n -- n' )  h# 2000 or  ;  \ 0b 0010 0000 0000 0000
+: +pull-sel     ( n -- n' )  h# 8000 or  ;  \ 0b 1000 0000 0000 0000
+: +pull-up      ( n -- n' )  h# c000 or  ;  \ 0b 1100 0000 0000 0000
+: +pull-up-alt  ( n -- n' )  h# 4000 or  ;  \ 0b 0100 0000 0000 0000
+: +twsi         ( n -- n' )  h#  400 or  ;  \ 0b 0000 0100 0000 0000
 
 \ We always start with edge detection off; it can be turned on later as needed
 : af,   ( n -- )  +edge-clr w,  ;
 
-: sleep-  ( n -- n' )  h# 0200 or  ;
-: sleep0  ( n -- n' )  h# 0000 or  ;
-: sleep1  ( n -- n' )  h# 0100 or  ;
-: sleepi  ( n -- n' )  h# 0080 or  ;
+: sleep-  ( n -- n' )  h# 0200 or  ;  \ 0b 0000 0010 0000 0000 or BIT(9)
+: sleep0  ( n -- n' )  h# 0000 or  ;  \ 0b 0000 0000 0000 0000
+: sleep1  ( n -- n' )  h# 0100 or  ;  \ 0b 0000 0001 0000 0000 or BIT(8)
+: sleepi  ( n -- n' )  h# 0080 or  ;  \ 0b 0000 0000 1000 0000 or BIT(7)
 
 0 0  " d401e000" " /" begin-package  \ MFPR
    " mfpr" name
