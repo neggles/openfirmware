@@ -7,16 +7,14 @@ purpose: Common instructions for fetching and building CForth
 \ manually delete the old cforth subtree.
 
 " ${CFORTH_BUILD_DIR}/Makefile" expand$ $file-exists?  0=  [if]
-   " ${CFORTH_VERSION}" expand$ " modify" $=  [if]
-      " git clone -q git@github.com:MitchBradley/cforth" expand$ $sh
-   [else]
-      " ${CFORTH_VERSION}" expand$ " clone" $=  [if]
-         " git clone -q https://github.com/MitchBradley/cforth" expand$ $sh
-      [else]   
-         " mkdir -p cforth" $sh
-         " wget -q -O - https://github.com/MitchBradley/cforth/archive/${CFORTH_VERSION}/cforth-${CFORTH_VERSION}.tar.gz | tar xfz - --strip-components=1 -C cforth" expand$ $sh
-         " wget -q -O - https://github.com/MitchBradley/cforth/commit/${CFORTH_VERSION}.patch | head -1 | cut -f 2 -d ' ' >>${CFORTH_BUILD_DIR}/version" expand$ $sh
-      [then]
+   " ${CFORTH_FETCH_METHOD}" expand$ " tarball" $=  [if]
+      " mkdir -p cforth" $sh
+      " curl -fSSL ${CFORTH_FETCH_URL}/archive/${CFORTH_VERSION}/${CFORTH_VERSION}.tar.gz | tar xfz - --strip-components=1 -C cforth" expand$ $sh
+      " curl -fsSL ${CFORTH_FETCH_URL}/commit/${CFORTH_VERSION}.patch | head -n1 | cut -f 2 -d ' ' >>${CFORTH_BUILD_DIR}/version" expand$ $sh
+   [then]
+   " ${CFORTH_FETCH_METHOD}" expand$ " clone" $=  [if]
+      " git clone ${CFORTH_REPO_URL} cforth" expand$ $sh
+      " git -C cforth checkout ${CFORTH_VERSION}" expand$ $sh
    [then]
 [then]
 

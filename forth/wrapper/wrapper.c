@@ -9,7 +9,7 @@ solve in porting Forthmacs to a different machine.
 3) At which address will the binary run (relocation)
 
 This C program finesses problems 1 and 2 by assuming that the C
-compiler/linker knows how to do those things.  The Forth 
+compiler/linker knows how to do those things.  The Forth
 interpreter itself is stored in a file whose format is system-independent.
 The C program mallocs an array, reads the Forth image into that array,
 and calls the array as a subroutine, passing it the address of another
@@ -63,7 +63,7 @@ which is part of the Forth image file.
 #include <sys/ioctl.h>
 #endif
 
-/* 
+/*
  * The following #includes and externs fix GCC warnings when compiled with
  * -Wimplicit-function-declarations, which I'm doing while trying to get
  * this working on Darwin hosts.
@@ -556,7 +556,7 @@ long (*functions[])() = {
  * long f_open(char *path, long mode);		Opens a file.
  *	Mode must agree with wrsys.fth
  * long f_creat(char *path, long mode); 	Creates a file.
- *	Mode must agree with wrsys.fth  
+ *	Mode must agree with wrsys.fth
  * long f_read(long fd, char *buf, long cnt);	Reads from a file
  * long f_write(long fd, char *buf, long cnt);	Writes to a file
  * long f_ioctl(long fd, long code, char *buf);	Is not used right now.
@@ -654,7 +654,7 @@ qlbflips(long *adr, char *bitmap, int len)
 #endif
 
 #ifdef TARGET_X86
-int bittest(char *table, int index) 
+int bittest(char *table, int index)
 {
 	int quot, remain ;
 	unsigned char pattern = 128 ;
@@ -799,7 +799,7 @@ strlower(char *str)
 	for (s = str; (c = *s) != '\0'; s++)
 		if (isupper(c))
 			*s = tolower(c);
-	
+
 	return(str);
 }
 
@@ -910,7 +910,7 @@ main(int argc, char **argv
 		exit(1);
 	}
 
-#ifdef TARGET_X86	
+#ifdef TARGET_X86
 	/*
 	 * XXX we should do an additional test to verify that it's
 	 * really a Forthmacs dictionary file and not just some other
@@ -937,7 +937,7 @@ main(int argc, char **argv
 
 	/* dictsize is the total amount of dictionary memory to allocate */
 
-	dictsize = imagesize +  extrasize; 
+	dictsize = imagesize +  extrasize;
 	relsize  = (dictsize + 15) /16;    /* Space for relocation map */
 
 	memsize = dictsize + relsize + PAGESIZE - 1;
@@ -962,7 +962,7 @@ main(int argc, char **argv
 		exit(1);
 	}
 	f_close(f);
-	
+
 	old_org = *(int*)(&loadaddr[0x1c]);
 	if (old_org != -1) {
 		/* Otherwise relocate lots of things via the bitmap */
@@ -979,7 +979,7 @@ main(int argc, char **argv
 		memcpy(&loadaddr[dictsize], reloc_table, (code_size+15)/16);
 	}
 
-#else  // TARGET_X86	
+#else  // TARGET_X86
 
 # if defined(TARGET_POWERPC) && defined(HOST_LITTLE_ENDIAN)
 	lbflips((long *)&header, sizeof(header));
@@ -1007,7 +1007,7 @@ main(int argc, char **argv
 
 	/* dictsize is the total amount of dictionary memory to allocate */
 
-	dictsize = sizeof(header) + imagesize +  extrasize ; 
+	dictsize = sizeof(header) + imagesize +  extrasize ;
 	dictsize += 16;		/* Allow for alignment */
 	memsize = roundup(dictsize, PAGESIZE);
 
@@ -1053,7 +1053,7 @@ main(int argc, char **argv
 		 loadaddr + sizeof(header) + header.h_tlen + header.h_dlen,
 		 header.h_tlen);
 # endif
-#endif  // TARGET_X86	
+#endif  // TARGET_X86
 
 	keymode();
 
@@ -1113,7 +1113,7 @@ main(int argc, char **argv
 	*(void **)(loadaddr+0x6) = fsyscall;
 	*(short *)(&loadaddr[0x0a]) = 0;
 	*(long *)(&loadaddr[0x10]) = argc;
-	*(char ***)(&loadaddr[0x14]) = (char **)((char *)&argv[0]); 
+	*(char ***)(&loadaddr[0x14]) = (char **)((char *)&argv[0]);
 	/* Far call to Forth */
 	(void)codep(0, &(loadaddr[dictsize]));
 	codep = (int (*)())(loadaddr + *(int *)(&loadaddr[0x0]));
@@ -1394,7 +1394,7 @@ c_key(void)
 	fflush(stdout);
 	if ((c = getchar()) != EOF)
 		return(c);
-	
+
 	s_bye(0L);
 	return(0);  /* To avoid compiler warnings */
 #endif
@@ -1632,7 +1632,7 @@ struct { int baud; int code; } baudcodes[] =
   {4000000,  B4000000},
 #endif
 #endif
-  {     -1,        -1}, 
+  {     -1,        -1},
 };
 
 INTERNAL long
@@ -1794,7 +1794,7 @@ pr_error(long errnum)
 #ifndef __unix__
 	extern int errno;
 #endif
-	
+
 	errno = errnum;
 	perror("");
 	return 0L;
@@ -2155,10 +2155,11 @@ INTERNAL long
 timez(void)
 {
 #if defined(BSD)
+	extern int gettimeofday();
+#endif
+#if defined(BSD) || defined(__linux__)
 	static struct timeval t;
 	static struct timezone tz;
-	extern int gettimeofday();
-
 	gettimeofday(&t, &tz);
 	return((long)tz.tz_minuteswest);
 #else
@@ -2221,7 +2222,7 @@ s_flushcache(char *adr, long len)
 	sys_icache_invalidate((void *)adr, (size_t)len);
 	return 0L;
 #endif
-#if defined(__linux__) && defined(ARM) 
+#if defined(__linux__) && defined(ARM)
 	/* There is another way to achieve the goal of making the */
 	/* dictionary executable.  You can add "-Wl,-z,execstack" */
 	/* to the cc command line or add "-z execstack" to the ld */
@@ -2233,7 +2234,7 @@ s_flushcache(char *adr, long len)
 	__clear_cache(adr, adr+len);
 	return 0L;
 #endif
-#if defined(__linux__) && defined(MIPS) 
+#if defined(__linux__) && defined(MIPS)
 	extern int cacheflush(char *addr, int nbytes, int cache);
 	(void) cacheflush(adr, len, BCACHE);
 	return 0L;
@@ -2426,7 +2427,7 @@ f_modtime(long filename)	/* True if file is executable */
 /* Find fname for symbol table  */
 INTERNAL long
 pathname(void)
-{   
+{
 	static char buf[256];
 	register char *cp, *cp2;
 	char *getenv();
@@ -2613,7 +2614,7 @@ expand_name(char *name)
 
 // LICENSE_BEGIN
 // Copyright (c) 2006 FirmWorks
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -2621,10 +2622,10 @@ expand_name(char *name)
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND

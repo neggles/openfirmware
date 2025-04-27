@@ -1,17 +1,25 @@
 # Wrapper makefile for ARM Linux
+BP = ../../..
 
-BP=../../..
+CFLAGS  := -O -DARM -mlittle-endian
 
-CFLAGS = -O -DARM -mlittle-endian
+WRTAIL  := forth/wrapper
+WRDIR   := ${BP}/${WRTAIL}
+ZIPTAIL := ${WRTAIL}/zip
+ZIPDIR  := ${BP}/${ZIPTAIL}
 
-WRTAIL = forth/wrapper
-WRDIR = ${BP}/${WRTAIL}
-ZIPTAIL = ${WRTAIL}/zip
-ZIPDIR = ${BP}/${ZIPTAIL}
+ZIPOBJS := adler32.o compress.o crc32.o deflate.o inflate.o trees.o zutil.o
+OBJS    := wrapper.o logger.o ${ZIPOBJS}
 
-ZIPOBJS = adler32.o compress.o crc32.o deflate.o inflate.o trees.o zutil.o
+# set up for xcompile
+OBJCOPY ?= objcopy
+ifdef CROSS
+CC      := ${CROSS}gcc
+LD      := ${CROSS}ld
+OBJCOPY := ${CROSS}objcopy
+endif
 
-OBJS = wrapper.o logger.o ${ZIPOBJS}
+.PHONY: all clean
 
 all: forth ../build/inflate.bin
 
@@ -37,7 +45,7 @@ xinflate.o: xinflate.lo
 	${LD} -T inflate.ld $< -o $@
 
 ../build/inflate.bin: xinflate.o
-	objcopy -O binary $< $@
+	${OBJCOPY} -O binary $< $@
 
 %.o: ${WRDIR}/%.c
 	${CC} -c ${CFLAGS} $< -o $@
@@ -46,4 +54,5 @@ xinflate.o: xinflate.lo
 	${CC} -c ${CFLAGS} -I${ZIPDIR} $< -o $@
 
 clean:
-	@rm -f ${OBJS} forth armforth
+	rm -f ${OBJS} forth armforth
+

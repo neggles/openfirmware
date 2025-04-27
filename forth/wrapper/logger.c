@@ -10,6 +10,10 @@
 #define __unix__ 1
 #endif
 
+#ifdef __STDC_LIB_EXT1__
+#define __STDC_WANT_LIB_EXT1__ 1
+#endif
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -27,11 +31,15 @@
 #include <unistd.h>
 #endif
 
+#ifdef __STDC_LIB_EXT1__
+#define sprintf sprintf_s
+#endif
+
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 256
 #endif
 
-#define MAXLINE 256
+#define MAXLINE ((MAXPATHLEN * 2) + 64)	/* Max length of a log record */
 char info[MAXLINE];		/* A place to create log records */
 
 /* Fend off unused argument warnings */
@@ -224,7 +232,7 @@ char *quotestr(char *str)
 
     o = result;
     *o++ = '"';
-		  
+
     for (p = str; *p; p++) {
        if (*p == '"')		/* Escape any embedded " characters */
           *o++ = '\\';
@@ -309,7 +317,7 @@ void log_env(char *name, char *value)
 
 // LICENSE_BEGIN
 // Copyright (c) 2006 FirmWorks
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -317,10 +325,10 @@ void log_env(char *name, char *value)
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND

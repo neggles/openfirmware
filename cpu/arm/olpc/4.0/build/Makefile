@@ -1,46 +1,42 @@
-ROMNAME=olpc
+BASEDIR     = $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../../../)
+OS          = $(shell uname)
+HOSTCPU     = $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
+HOSTDIR     = ${BASEDIR}/cpu/${HOSTCPU}/${OS}
 
-BASEDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../../../)
+TAGFILES    = ${BASEDIR}/cpu/arm/build/*.tag *.tag
+CLIENTDIR   = ${BASEDIR}/clients
+CLIENTPROGS = ${CLIENTDIR}/emacs/arm/emacs
 
-OS := $(shell uname)
-HOSTCPU := $(shell ${BASEDIR}/forth/lib/hostcpu.sh)
-HOSTDIR := ${BASEDIR}/cpu/${HOSTCPU}/${OS}
-BUILDSH := ${BASEDIR}/forth/lib/build.sh
-
-TAGFILES    := ${BASEDIR}/cpu/arm/build/*.tag *.tag
-CLIENTDIR   := ${BASEDIR}/clients
-CLIENTPROGS := ${CLIENTDIR}/emacs/arm/emacs
+ROMNAME     = olpc
+BUILDFLAGS  = 
 
 all: ${ROMNAME}.rom tags
 
 ${ROMNAME}.tag: ${ROMNAME}.rom
 
 tags: ${ROMNAME}.tag
-	@${BASEDIR}/forth/lib/toctags ${BASEDIR} ${TAGFILES}
+	${BASEDIR}/forth/lib/toctags ${BASEDIR} ${TAGFILES}
 
 ${ROMNAME}.rom: FORCE build ${CLIENTPROGS} ${HOSTDIR}/forth ${HOSTDIR}/armforth
-	./build $@
+	./build ${BUILDFLAGS} $@
 
 ${HOSTDIR}/forth:
-	@make -C ${HOSTDIR} forth
+	make -C ${HOSTDIR} forth
 
 ${HOSTDIR}/armforth:
-	@make -C ${HOSTDIR} armforth
-
-../../build/inflate.bin:
-	@make -C ../../build inflate.bin
+	make -C ${HOSTDIR} armforth
 
 ${CLIENTDIR}/emacs/arm/emacs:
-	@make -C ${CLIENTDIR}/emacs/arm emacs
+	make -C ${CLIENTDIR}/emacs/arm emacs
 
 build:
-	@ln -sf ${BUILDSH} build
+	ln -sf ${BASEDIR}/forth/lib/build.sh build
 
 clean:
 	rm -f *.dic *.log headers *~ *.elf *.di *.img builton.fth build *.rom *.version tags *.tag
 
 clean-all: clean
-	@make -C ../../build clean
+	@make -C ../../../build clean
 	@make -C ${HOSTDIR} clean
 
 .PHONY: FORCE clean all clean-all

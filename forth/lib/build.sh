@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # Script to invoke the FirmWorks build facility.
 # Usage:  build [-c|d|h|q|t|v] [target-name]
 #
@@ -16,29 +17,33 @@
 # or
 #    tag <target-name>
 
-# Set BP by searching upward for the firmware root directory
-test -n "$BP" || {
-    dir=`pwd`
-    {
-        until [ -d ofw ]; do
-            if [ `pwd` = / ] ; then
-                echo "Can\'t find firmware root directory"
-                exit
-            fi
-            cd ..
-        done
-        BP=`pwd`
-        export BP
-    }
-    cd $dir
-}
+# Set BP by asking git, or searching upward for the root dir
+if [[ -n $BP ]]; then
+    if [[ $(git rev-parse --is-inside-work-tree) = "true" ]]; then
+        BP=$(git rev-parse --show-toplevel)
+    else
+        cdir="$(pwd)"
+        {
+            until [ -d ofw ]; do
+                if [[ $PWD = '/' ]]; then
+                    echo "Can't find firmware root directory!"
+                    exit 1
+                fi
+                cd ..
+            done
+            BP=$(pwd)
+        }
+        cd "$cdir" || exit 1
+    fi
+    export BP
+fi
 
 # Set HOSTDIR according to the value of BP and the host system
-test -n "$HOSTDIR" || {
-    OSNAME=`uname`
-    CPUNAME=`${BP}/forth/lib/hostcpu.sh`
-}
-export HOSTDIR=${BP}/cpu/${CPUNAME}/${OSNAME}
+if [[ -n $HOSTDIR ]]; then
+    OSNAME=$(uname)
+    CPUNAME=$(${SHELL} "${BP}/forth/lib/hostcpu.sh")
+    export HOSTDIR="${BP}/cpu/${CPUNAME}/${OSNAME}"
+fi
 
 command=build
 
@@ -67,20 +72,21 @@ case $1 in
     *)  unset mode ;;
 esac
 
-if [ `basename $0` = forth ]; then
+FORTH=${FORTH:-"${HOSTDIR}/forth"}
+NATIVE=${NATIVE:-"${HOSTDIR}/../build/builder.dic"}
+
+if [[ $(basename "$0") = "forth" ]]; then
     mode=".copyright interact"
     if [ $# -eq 0 ]; then
-	exec ${FORTH:-${HOSTDIR}/forth} ${NATIVE:-${HOSTDIR}/../build/builder.dic} \
-	    -s "$mode $command $*"
-    elif [ `basename $1` != `basename $1 .dic`.dic ]; then
-	exec ${FORTH:-${HOSTDIR}/forth} ${NATIVE:-${HOSTDIR}/../build/builder.dic} $*
+	    exec "${FORTH}" "${NATIVE}" -s "$mode $command $*"
+    elif [[ $(basename "$1") != $(basename "$1" .dic).dic ]]; then
+	    exec "${FORTH}" "${NATIVE}" "$@"
     else
-	exec ${FORTH:-${HOSTDIR}/forth} $*
+	    exec "${FORTH}" "$@"
     fi
 elif [ $# -eq 0 ]; then		# Ensure the "target-name" argument is present
     echo "No target name specified; executing builder in interactive mode"
     mode=interact
 fi
 
-${FORTH:-${HOSTDIR}/forth} ${NATIVE:-${HOSTDIR}/../build/builder.dic} \
-	-s "$mode $command $*"
+"${FORTH}" "${NATIVE}" -s "$mode $command $*"
