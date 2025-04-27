@@ -15,7 +15,7 @@ dev /
       " /clocks" encode-phandle mmp2-gpu-3d-clk# encode-int encode+
       " /clocks" encode-phandle encode+ mmp2-gpu-bus-clk# encode-int encode+
          " clocks" property
-      " core" encode-string encode+
+      " core" encode-string
       " bus" encode-string encode+
          " clock-names" property
 
