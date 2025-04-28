@@ -4,7 +4,7 @@ fload ${BP}/cpu/arm/mmp2/sdhci.fth
 
 dev /sd
    : olpc-card-inserted?  ( -- flag )
-      base-addr h# d428.0000 =  if  d# 31 gpio-pin@ 0=  else  true  then
+      base-addr h# d428.0000 =  if  sd-cd-gpio# gpio-pin@ 0=  else  true  then
    ;
    ' olpc-card-inserted? to card-inserted?
 
@@ -73,7 +73,7 @@ device-end
 dev /sdhci@d4280000  \ MMC1 - External SD
    d# 50000000 " max-frequency" integer-property
    d#  4 " bus-width" integer-property
-   d# 31 " mrvl,clk-delay-cycles" integer-property
+   d# 15 " mrvl,clk-delay-cycles" integer-property
    d# 40 " post-power-on-delay-ms" integer-property
 
    encode-null " no-1-8-v" property
@@ -86,7 +86,7 @@ dev /sdhci@d4280000  \ MMC1 - External SD
 device-end
 
 dev /sdhci@d4280800  \ MMC2 - WLAN
-   d# 50000000 " max-frequency" integer-property
+   d# 50000000 " clock-frequency" integer-property
    d#  4 " bus-width" integer-property
    d# 31 " mrvl,clk-delay-cycles" integer-property
    d# 40 " post-power-on-delay-ms" integer-property
@@ -95,6 +95,7 @@ dev /sdhci@d4280800  \ MMC2 - WLAN
    encode-null " wakeup-source" property
    encode-null " no-1-8-v" property
    encode-null " non-removable" property
+   encode-null " broken-cd" property
 
    new-device
       fload ${BP}/dev/mmc/sdhci/mv8686/loadpkg.fth
@@ -104,7 +105,7 @@ device-end
 
 dev /sdhci@d4281000  \ MMC3 - Internal eMMC
    d# 50000000 " max-frequency" integer-property
-   d# 8 " bus-width" integer-property
+   d#  8 " bus-width" integer-property
    d# 15 " mrvl,clk-delay-cycles" integer-property
    d# 40 " post-power-on-delay-ms" integer-property
 
@@ -131,9 +132,8 @@ dev /sdhci@d4217000 \ MMC5 - internal micro-SD
    d# 40 " post-power-on-delay-ms" integer-property
 
    \ The media is considered non-removable (at run-time) since the slot is
-   \ only accessible on the motherboard, the heatspreader must be removed to
-   \ access it, and it's unpopulated on production boards. `broken-cd` would be
-   \ more accurate, but would waste power.
+   \ internal, the heatspreader must be removed to access it, and it's unpopulated
+   \ on production boards. `broken-cd` would be more accurate, but would waste power.
    encode-null " no-1-8-v" property
    encode-null " non-removable" property
 

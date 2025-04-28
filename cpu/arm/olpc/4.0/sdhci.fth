@@ -1,4 +1,6 @@
 
+\ Regulators and power sequencers
+
 dev /sdhci@d4280000  \ MMC1 - External SD
    d# 50000000 " max-frequency" integer-property
 
@@ -28,26 +30,24 @@ dev /
       d# 3300000 " regulator-max-microvolt" integer-property
       encode-null " enable-active-high" property
       en-wlan-pwr-gpio# 0 " gpio" gpio-property
-      d# 10000 " startup-delay-us" integer-property
    finish-device
 
    new-device   \ SDIO WiFi power sequencer
       " pwrseq-wlan" device-name
-      " mmc-pwrseq-simple" +compatible
-      wlan-reset-gpio# 1 " reset-gpios" gpio-property
-      d# 300 " post-power-on-delay-ms" integer-property
+      " mmc-pwrseq-sd8787" +compatible
+      wlan-reset-gpio# 0 " reset-gpios" gpio-property
+      wlan-pd-gpio# 0 " powerdown-gpios" gpio-property
    finish-device
 device-end
 
 
 dev /sdhci@d4280800  \ MMC2 - WLAN
-   \ encode-null " cap-power-off-card" property
    " /regulator-3v3-wlan" encode-phandle " vmmc-supply" property
-   " /regulator-3v3-wlan" encode-phandle " vqmmc-supply" property
    " /pwrseq-wlan" encode-phandle " mmc-pwrseq" property
+   wlan-reset-gpio# 1 " reset-gpios" gpio-property
 device-end
 
-\ 88W8787 WLAN+BG reg property fixes
+\ 88W8787 WLAN+BT reg property fixes
 dev /sdhci@d4280800/sdio
    d# 0 " #size-cells" integer-property
 device-end

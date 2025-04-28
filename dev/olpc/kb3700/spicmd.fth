@@ -23,38 +23,31 @@ purpose: Host to EC SPI protocol
 
 headerless
 
-" ec-spi"     device-name
+   " ec-spi"     device-name
+   " olpc,ec-spi" +compatible
+   " marvell,mmp2-ssp" +compatible
 
-0 0 encode-bytes
+   my-address my-space h# 1000 encode-reg " reg" property
 
-" olpc,ec-spi" +compatible
-" marvell,mmp2-ssp" +compatible
+   1 " #address-cells"  integer-property
+   0 " #size-cells"     integer-property
 
-my-address      my-space  h# 1000  encode-reg
-" reg" property
+   encode-null " spi-slave" property
+   ec-spi-ack-gpio# 0 " ready-gpios"  gpio-property
 
-1 " #address-cells"  integer-property
-0 " #size-cells"     integer-property
+   \ interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
+   d# 0 encode-int  d# 20 encode-int encode+  d# 4 encode-int encode+  " interrupts" property
+   " /clocks" encode-phandle  mmp2-ssp2-clk# encode-int encode+  " clocks" property
 
-0 0 encode-bytes " spi-slave" property
-ec-spi-ack-gpio# 0  " ready-gpios"  gpio-property
-
-   d# 20 " interrupts" integer-property
-   " /clocks" encode-phandle mmp2-ssp2-clk# encode-int encode+ " clocks" property
-
-   ec-spi-ack-gpio# 1  " ack-gpios"  gpio-property
-   ec-spi-cmd-gpio# 1  " cmd-gpios"  gpio-property
-   ec-spi-int-gpio# 1  " int-gpios"  gpio-property
-
-new-device
-   " slave" device-name
-[ifdef] mmp3
-   " olpc,xo4.0-ec" +compatible
-[then]
-   " olpc,xo1.75-ec" +compatible
-   0 0 encode-bytes " spi-cpha" property
-   ec-spi-cmd-gpio# 0  " cmd-gpios"  gpio-property
-finish-device
+   new-device
+      " slave" device-name
+   [ifdef] mmp3
+      " olpc,xo4.0-ec" +compatible
+   [then]
+      " olpc,xo1.75-ec" +compatible
+      encode-null " spi-cpha" property
+      ec-spi-cmd-gpio# 0 " cmd-gpios" gpio-property
+   finish-device
 
 : encode-unit  ( phys -- adr len )  push-hex  (u.)  pop-base  ;
 : decode-unit  ( adr len -- phys )  push-hex  $number  if  0  then  pop-base  ;

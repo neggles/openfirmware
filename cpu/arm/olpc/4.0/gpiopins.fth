@@ -22,7 +22,8 @@ d# 126 constant dcon-irq-gpio#
 d# 142 constant dcon-load-gpio#
 
 d#  34 constant en-wlan-pwr-gpio#
-d#  35 constant wlan-wake-gpio#  \ was WLAN_PD prior to XO-4 C1
+d#  35 constant wlan-wake-gpio#  \ was WLAN_PD prior to XO-4 C2
+d#  33 constant wlan-pd-gpio#    \ XO-4 C2 should not have this.
 d#  36 constant wlan-reset-gpio#
 
 d# 148 constant usb-hub-reset-gpio#
