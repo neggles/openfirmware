@@ -1,6 +1,6 @@
 new-device
 2 to my-space
-my-space 1 reg
+my-space " reg" integer-property
 " bluetooth" name
 fload ${BP}/dev/bluetooth/marvell-hci.fth	\ Bluetooth driver
 finish-device

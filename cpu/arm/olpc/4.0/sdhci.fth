@@ -41,24 +41,18 @@ dev /
 device-end
 
 
-dev /sdhci@d4280800  \ MMC2 - WLAN
+dev /sd/sdhci@d4280800  \ MMC2 - WLAN
    " /regulator-3v3-wlan" encode-phandle " vmmc-supply" property
    " /pwrseq-wlan" encode-phandle " mmc-pwrseq" property
    wlan-reset-gpio# 1 " reset-gpios" gpio-property
 device-end
 
-\ 88W8787 WLAN+BT reg property fixes
-dev /sdhci@d4280800/sdio
-   d# 0 " #size-cells" integer-property
-device-end
-
-dev /sdhci@d4280800/sdio/wlan@1
+\ 88W8787 WLAN+BT property fixes
+dev /wlan@1
    " marvell,sd8787" +compatible
-   d# 1 " reg" integer-property
 device-end
-dev /sdhci@d4280800/sdio/bluetooth@2
+dev /bluetooth@2
    " marvell,sd8787-bt" +compatible
-   d# 2 " reg" integer-property
 device-end
 
 
