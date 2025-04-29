@@ -172,7 +172,7 @@ h# 400 constant MAX_PAYLOAD
 0 value dadr   \ Original adress argument to read-frame
 0 value dlen   \ Original len argument to read-frame
 : restart-read-frame  ( -- )
-   dadr to dptr dlen to rlen  
+   dadr to dptr dlen to rlen
    #restart-read-frame 1+ dup to #restart-read-frame
    MAX_RESTART_READ_FRAME =  if
       0 to #restart-read-frame
@@ -212,7 +212,7 @@ external
    alloc-bufs
    set-device?  if  false exit  then
    device set-target
-   true  
+   true
 ;
 : close  ( -- )  free-bufs  ;
 
@@ -275,8 +275,8 @@ init
 \ open u. init-dev init-stream testa
 
 \ LICENSE_BEGIN
-\ Copyright (c) 20011 FirmWorks
-\ 
+\ Copyright (c) 2011 FirmWorks
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -284,10 +284,10 @@ init
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
