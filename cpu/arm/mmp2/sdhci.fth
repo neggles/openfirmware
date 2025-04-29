@@ -6,8 +6,8 @@ purpose: Load file for SDHCI (Secure Digital Host Controller Interface)
 
    " simple-bus" +compatible
    h# d4280000 encode-int  h# d4280000 encode-int encode+  h# 2000 encode-int encode+
-   h# d4217000 encode-int encode+  h# d4217000 encode-int encode+  h# 800 encode-int encode+
-" ranges" property
+      h# d4217000 encode-int encode+  h# d4217000 encode-int encode+  h# 800 encode-int encode+
+      " ranges" property
    1 " #address-cells" integer-property
    1 " #size-cells" integer-property
 
