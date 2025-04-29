@@ -10,7 +10,7 @@ purpose: Driver for MMP2 internal RTC
    " /interrupt-controller@154" encode-phandle " interrupt-parent" property
 
    " rtc 1Hz" encode-string " rtc alarm" encode-string  encode+ " interrupt-names" property
-         
+
    " /clocks" encode-phandle mmp2-rtc-clk# encode-int encode+ " clocks" property
 end-package
 
@@ -36,7 +36,7 @@ end-package
 : take-alarm  ( -- )  ." Alarm fired" cr  cancel-alarm  ;
 : rtc-wake  ( handler-xt #seconds -- )
    enable-rtc                          ( handler-xt #seconds )  \ Turn on clocks
-   
+
    1 int5-mask io-clr                  ( handler-xt #seconds )  \ Unmask alarm
    enable-rtc-wakeup                   ( handler-xt #seconds )
    0 soc-rtc@  +  4 soc-rtc!           ( handler-xt )           \ Set alarm for 2 seconds from now
@@ -63,7 +63,7 @@ alias test4 wakeup-loop
 
 d# -250 constant suspend-power-limit
 [ifdef] mmp3
-   .( mmp2/rtc.fth: Temporarily increasing suspend-power-limit) cr
+   \ .( mmp2/rtc.fth: Temporarily increasing suspend-power-limit) cr
    d# -500 to suspend-power-limit
 [then]
 
@@ -86,7 +86,7 @@ d# -250 constant suspend-power-limit
 
 \ LICENSE_BEGIN
 \ Copyright (c) 2011 FirmWorks
-\ 
+\
 \ Permission is hereby granted, free of charge, to any person obtaining
 \ a copy of this software and associated documentation files (the
 \ "Software"), to deal in the Software without restriction, including
@@ -94,10 +94,10 @@ d# -250 constant suspend-power-limit
 \ distribute, sublicense, and/or sell copies of the Software, and to
 \ permit persons to whom the Software is furnished to do so, subject to
 \ the following conditions:
-\ 
+\
 \ The above copyright notice and this permission notice shall be
 \ included in all copies or substantial portions of the Software.
-\ 
+\
 \ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 \ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 \ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
