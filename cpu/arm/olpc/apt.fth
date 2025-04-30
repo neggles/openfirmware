@@ -1,10 +1,10 @@
 \ SPDX-License-Identifier: MIT
 purpose: Developer utilities for OLPC boards
 
-: flash-update  " flash! http:\\172.21.10.99\new.rom" eval  ;
+: flash-update  " flash! http:\\172.21.10.99:8000\new.rom" eval  ;
 : flash-update-usb   " flash! u:\new.rom" eval  ;
 
-: ec-update  " flash-ec http:\\172.21.10.99\ecimage.bin" eval  ;
+: ec-update  " flash-ec http:\\172.21.10.99:8000\ecimage.bin" eval  ;
 : ec-update-usb   " flash-ec! u:\ecimage.bin" eval  ;
 
 \ Load WiFi network name and password from manufacturing data tags.
