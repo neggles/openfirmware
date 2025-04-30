@@ -51,9 +51,9 @@ create gpio-offsets
 
    d# 49  encode-int  " interrupts" property
    " gpio_mux"  " interrupt-names" string-property
-   " " " gpio-controller" property
+   encode-null " gpio-controller" property
    2 " #gpio-cells" integer-property
-   " " " interrupt-controller" property
+   encode-null " interrupt-controller" property
    2 " #interrupt-cells" integer-property
    0 0 " ranges" property
 
