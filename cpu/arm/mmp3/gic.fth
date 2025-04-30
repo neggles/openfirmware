@@ -1,5 +1,26 @@
 purpose: Generic Interrupt Controller node for Marvell MMP3
 
+\ from dt-bindings/interrupt-controller/arm-gic.h
+\ these go at the start of a definition, so no encode+
+: gic-spi  d# 0 encode-int ;  \ GIC_SPI
+: gic-ppi  d# 1 encode-int ;  \ GIC_PPI
+: gic-espi d# 2 encode-int ;  \ GIC_ESPI
+: gic-eppi d# 3 encode-int ;  \ GIC_EPPI
+
+
+\ from dt-bindings/interrupt-controller/irq.h
+\ these go at the end of a definition, so encode+ is added
+: irq-none           d# 0 encode-int encode+ ;  \ IRQ_TYPE_NONE
+: irq-edge-rising    d# 1 encode-int encode+ ;  \ IRQ_TYPE_EDGE_RISING
+: irq-edge-falling   d# 2 encode-int encode+ ;  \ IRQ_TYPE_EDGE_FALLING
+: irq-edge-both      d# 3 encode-int encode+ ;  \ (IRQ_TYPE_EDGE_RISING | IRQ_TYPE_EDGE_FALLING)
+: irq-level-high     d# 4 encode-int encode+ ;  \ IRQ_TYPE_LEVEL_HIGH
+: irq-level-low      d# 8 encode-int encode+ ;  \ IRQ_TYPE_LEVEL_LOW
+
+\ convenience
+: encode-irq ( -- ) encode-int encode+ ;
+
+
 0 0  " e0001000"  " /" begin-package
   " interrupt-controller" device-name
   " arm,arm11mp-gic" +compatible
@@ -57,12 +78,14 @@ dev /interrupt-controller@1c8   gicparent  dend
 dev /interrupt-controller@1cc   gicparent  dend
 dev /interrupt-controller@1d0   gicparent  dend
 
+
+
 : irqdef ( irq# -- )
    " interrupts" delete-property
-   0 encode-int
-   rot encode-int encode+
-   4 encode-int encode+
-   " interrupts" property
+   gic-spi                 \ ( irq# 0 --)
+   rot encode-irq          \ ( 0 irq# --)
+   irq-level-high          \ ( 0 irq# 4 --)
+   " interrupts" property  \ ( -- )
 ;
 
 \ modify irqs to use 3 cells instead of 1
